@@ -3,11 +3,31 @@ const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
 
 exports.getAllBikejourneysMay = asyncHandler(async (req, res, next) => {
-  const bikejourneys = await BikejourneysMay.find();
+  let query = BikejourneysMay.find();
+  const page = parseInt(req.query.page) || 1;
+  const pageSize = parseInt(req.query.limit) || 30;
+  const skip = (page - 1) * pageSize;
+  const totalRows = await BikejourneysMay.countDocuments();
+
+  const pages = Math.ceil(totalRows / pageSize);
+
+  query = query.skip(skip).limit(pageSize);
+
+  if (page > pages) {
+    return res.status(404).json({
+      status: "failed",
+      message: "No page found",
+    });
+  }
+
+  const result = await query;
 
   res.status(200).json({
-    success: true,
-    data: bikejourneys,
+    status: "success",
+    count: result.length,
+    page,
+    pages,
+    data: result,
   });
 });
 
