@@ -2,16 +2,17 @@ const BikejourneysMay = require("../models/BikejourneysMay");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
 
-exports.getAllBikejourneysMay = asyncHandler(async (req, res, next) => {
+exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
   let query = BikejourneysMay.find();
-  const page = parseInt(req.query.page) || 1;
-  const pageSize = parseInt(req.query.limit) || 30;
-  const skip = (page - 1) * pageSize;
-  const totalRows = await BikejourneysMay.countDocuments();
 
-  const pages = Math.ceil(totalRows / pageSize);
+  const pageSize = parseInt(req.query.limit) || 30; //page size
+  const page = parseInt(req.query.page) || 1; //default page number
+  const skip = (page - 1) * pageSize; //number of documents to skip
+  const totalRows = await BikejourneysMay.countDocuments(); //total number of documents
 
-  query = query.skip(skip).limit(pageSize);
+  const pages = Math.ceil(totalRows / pageSize); //total number of pages
+
+  query = query.limit(pageSize).skip(skip).allowDiskUse(true); // query for pagination
 
   if (page > pages) {
     return res.status(404).json({
@@ -27,6 +28,65 @@ exports.getAllBikejourneysMay = asyncHandler(async (req, res, next) => {
     count: result.length,
     page,
     pages,
+    data: result,
+  });
+});
+
+exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
+  let query = BikejourneysMay.find();
+
+  // Loop over each query parameter
+  Object.keys(req.query).forEach((param) => {
+    // create query based on parameter and its value
+    query = query.where(param).equals(req.query[param]);
+  });
+
+  const pageSize = parseInt(req.query.limit) || 30; // page size
+  const page = parseInt(req.query.page) || 1; // default page number
+  const skip = (page - 1) * pageSize; // number of documents to skip
+  const totalRows = await BikejourneysMay.countDocuments(); //total number of documents
+
+  const pages = Math.ceil(totalRows / pageSize); //total number of pages
+
+  query = query
+    .limit(pageSize)
+    .skip(skip)
+    .allowDiskUse(true)
+    .sort({ [req.query.sort]: req.query.dir }); //query for pagination and sorting
+
+  if (page > pages) {
+    return res.status(404).json({
+      status: "failed",
+      message: "No page found",
+    });
+  }
+
+  const result = await query;
+
+  res.status(200).json({
+    status: "success",
+    count: result.length,
+    page,
+    pages,
+    data: result,
+  });
+});
+
+exports.sortBikejourneysMay = asyncHandler(async (req, res, next) => {
+  let query = BikejourneysMay.find();
+
+  const pageSize = parseInt(req.query.limit) || 30; // page size
+  const page = parseInt(req.query.page) || 1; // default page number
+  const skip = (page - 1) * pageSize; //number of documents to skip
+
+  let sortField = req.query.sort; // Set sort field
+
+  query = query.limit(pageSize).skip(skip).sort(sortField).allowDiskUse(true);
+
+  const result = await query;
+
+  res.status(200).json({
+    status: "success",
     data: result,
   });
 });
