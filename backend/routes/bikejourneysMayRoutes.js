@@ -5,19 +5,21 @@ const router = express.Router();
 
 // @route - /api/bikejourneysmay/
 router
-  .route("/")
+  .route("/may")
   .get(bikejourneysMayControllers.paginateBikejourneysMay)
   .post(bikejourneysMayControllers.createNewBikejourneysMay);
 
 // @route - /api/bikejourneysmay/filter
-router.route("/filter").get(bikejourneysMayControllers.filterBikejourneysMay);
+router
+  .route("/may/filter")
+  .get(bikejourneysMayControllers.filterBikejourneysMay);
 
 // @route - /api/bikejourneysmay/filter
-router.route("/sort").get(bikejourneysMayControllers.sortBikejourneysMay);
+router.route("/may/sort").get(bikejourneysMayControllers.sortBikejourneysMay);
 
 // @route - /api/bikejourneysmay/:id
 router
-  .route("/:id")
+  .route("/may/:id")
   .put(bikejourneysMayControllers.updateBikejourneysMayById)
   .delete(bikejourneysMayControllers.DeleteBikejourneysMayById);
 

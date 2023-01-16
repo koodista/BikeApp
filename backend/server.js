@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.use(cors());
 // Routes
-app.use("/api/bikejourneysmay", require("./routes/bikejourneysMayRoutes"));
+app.use("/api/bikejourneys", require("./routes/bikejourneysMayRoutes"));
 // Error Handler
 app.use(errorHandler);
 

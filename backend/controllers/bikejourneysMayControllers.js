@@ -8,11 +8,17 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
   const pageSize = parseInt(req.query.limit) || 30; //page size
   const page = parseInt(req.query.page) || 1; //default page number
   const skip = (page - 1) * pageSize; //number of documents to skip
-  const totalRows = await BikejourneysMay.countDocuments(); //total number of documents
+  const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
 
-  const pages = Math.ceil(totalRows / pageSize); //total number of pages
-
-  query = query.limit(pageSize).skip(skip).allowDiskUse(true); // query for pagination
+  const pages = Math.ceil(totalPages / pageSize); //total number of pages
+  query = query.skip(skip).limit(pageSize).allowDiskUse(true); // query for pagination
+  //query = query.limit(pageSize).skip(skip).allowDiskUse(true); // query for pagination
+  // query = query
+  //   .limit(pageSize)
+  //   .skip(skip)
+  //   .allowDiskUse(true)
+  //   .page(page)
+  //   .pageSize(pageSize);
 
   if (page > pages) {
     return res.status(404).json({
@@ -22,14 +28,21 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
   }
 
   const result = await query;
-
   res.status(200).json({
     status: "success",
     count: result.length,
     page,
     pages,
+    pageSize,
     data: result,
   });
+  // res.status(200).json({
+  //   status: "success",
+  //   count: result.length,
+  //   page,
+  //   pages,
+  //   data: result,
+  // });
 });
 
 exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
@@ -44,9 +57,9 @@ exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
   const pageSize = parseInt(req.query.limit) || 30; // page size
   const page = parseInt(req.query.page) || 1; // default page number
   const skip = (page - 1) * pageSize; // number of documents to skip
-  const totalRows = await BikejourneysMay.countDocuments(); //total number of documents
+  const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
 
-  const pages = Math.ceil(totalRows / pageSize); //total number of pages
+  const pages = Math.ceil(totalPages / pageSize); //total number of pages
 
   query = query
     .limit(pageSize)
@@ -87,6 +100,9 @@ exports.sortBikejourneysMay = asyncHandler(async (req, res, next) => {
 
   res.status(200).json({
     status: "success",
+    count: result.length,
+    page,
+    pageSize,
     data: result,
   });
 });
