@@ -5,6 +5,8 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DataTableMay from "../components/DataTableMay";
+import ReactTableMay from "../components/ReactTableMay";
+import DataGridForBikeJourneys from "../components/DataGrid";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,10 +66,10 @@ export default function BasicTabs() {
         <DataTableMay />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Bike journeys June
+        <DataGridForBikeJourneys />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Bike journeys July
+        <ReactTableMay />
       </TabPanel>
       <TabPanel value={value} index={3}>
         Bike Stations

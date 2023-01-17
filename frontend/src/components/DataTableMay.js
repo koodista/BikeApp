@@ -1,37 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import DataTable from "react-data-table-component";
+import FilterComponent from "./FilterComponent";
 
 const DataTableMay = () => {
   const [bikeJourneysMay, setBikeJourneysMay] = useState([]);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [totalRows, setTotalRows] = useState(0);
-  const [page, setPage] = useState(1);
+  const [totalRows, setTotalRows] = useState();
+  const [page, setPage] = useState(0);
   const [pages, setPages] = useState(0);
   const [limit, setLimit] = useState(30);
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
   const [count, setCount] = useState(0);
+  const [filters, setFilters] = useState();
+  const [rowCountState, setRowCountState] = useState(totalPages);
+  const [currentPage, setCurrentPage] = useState();
+  const [filterText, setFilterText] = useState("");
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  //useEffect(() => {
   const fetchData = async (page, limit) => {
     setLoading(true);
     const response = await axios.get(
       `/api/bikejourneys/may?page=${page}&limit=${limit}&delay=1`
     );
-    setBikeJourneysMay(response.data.data); //.map(bj => ({ ...bj, id: bj._id }))
+    setBikeJourneysMay(response.data.data);
     setTotalPages(response.data.pages);
     setTotalRows(response.data.total);
     setCount(response.data.count);
     setLoading(false);
   };
 
-  const handlePageChange = (page) => {
-    fetchData(page);
-  };
-
   const handlePerRowsChange = async (limit, page) => {
+    setPages(page);
     setLoading(true);
 
     const response = await axios.get(
@@ -42,15 +44,16 @@ const DataTableMay = () => {
     setPageSize(limit);
     setLoading(false);
   };
+
+  const handlePageChange = (page) => {
+    handlePerRowsChange(pageSize, page);
+  };
   useEffect(() => {
     fetchData();
   }, []);
 
   const handleSort = (column, sortDirection) => {
-    // Get the array of data to be sorted
     const data = bikeJourneysMay;
-
-    // Sort the data by the column and sort direction
     data.sort((a, b) => {
       if (sortDirection === "asc") {
         return a[column] > b[column] ? 1 : -1;
@@ -59,20 +62,8 @@ const DataTableMay = () => {
       }
     });
 
-    // Update the array of sorted data
     setBikeJourneysMay(data);
   };
-
-  //The following is an example of the filtering function:
-
-  // const handleFilter = (column, filterValue) => {
-  //    // Get the array of data to be filtered
-  //    const data = [...bikeJourneysMay];
-
-  //    // Filter the data by the column and filter value
-  //    const filteredData = data.filter(row => {
-  //      return row[column].includes(filterValue);
-  //    });
 
   const columns = [
     //{ name: "ID", selector: (row) => row._id },
@@ -81,64 +72,93 @@ const DataTableMay = () => {
       selector: (row) => row.departure,
       sortable: true,
       sortField: "departure",
+      filterable: true,
     },
     {
       name: "Return Time",
       selector: (row) => row.return,
       sortable: true,
       sortField: "return",
+      filterable: true,
     },
     {
       name: "Departure Station Id",
       selector: (row) => row.departureStationId,
       sortable: true,
       sortField: "departureStationId",
+      filterable: true,
     },
     {
       name: "Departure Station",
       selector: (row) => row.departureStationName,
       sortable: true,
       sortField: "departureStationName",
+      filterable: true,
     },
     {
       name: "Return Station Id",
       selector: (row) => row.returnStationId,
       sortable: true,
       sortField: "returnStationId",
+      filterable: true,
     },
     {
       name: "Return Station",
       selector: (row) => row.returnStationName,
       sortable: true,
       sortField: "returnStationName",
+      filterable: true,
     },
     {
       name: "Distance(km)",
       selector: (row) => (row.distance / 1000).toFixed(3),
       sortable: true,
       sortField: "distance",
+      filterable: true,
     },
     {
       name: "Duration(min)",
       selector: (row) => (row.duration / 60).toFixed(2),
       sortable: true,
       sortField: "duration",
+      filterable: true,
     },
   ];
+
+  const filteredItems = bikeJourneysMay.filter(
+    (item) =>
+      JSON.stringify(item).toLowerCase().indexOf(filterText.toLowerCase()) !==
+      -1
+  );
+  const subHeaderComponent = useMemo(() => {
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
+    };
+    return (
+      <FilterComponent
+        onFilter={(e) => setFilterText(e.target.value)}
+        onClear={handleClear}
+        filterText={filterText}
+      />
+    );
+  }, [filterText, resetPaginationToggle]);
 
   return (
     <div style={{ height: "100px" }}>
       <DataTable
-        title="Bikejourneys May 2021"
+        title="CITY BIKE JOURNEYS MAY 2021"
         columns={columns}
-        data={bikeJourneysMay}
+        data={filteredItems}
         progressPending={loading}
         pagination
         paginationServer
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         paginationTotalRows={totalPages}
-        paginationRowsPerPageOptions={[30]}
+        paginationRowsPerPageOptions={[10, 30, 50, 100, 500]}
         paginationPerPage={pageSize}
         // paginationComponentOptions={{
         //   rowsPerPageText: "Rows per page:",
@@ -147,13 +167,17 @@ const DataTableMay = () => {
         fixedHeader
         fixedHeaderScrollHeight="500px" //auto
         responsive="true"
-        theme="dark"
+        theme="default" //dark
         onSort={handleSort}
+        defaultSortField="departure"
+        striped
         //onFilter={handleFilter}
         //page={page - 1}
         //pages={totalPages}
         //perPage={100}
-        //filterable
+        filterable
+        subHeader
+        subHeaderComponent={subHeaderComponent}
         sortable
         noDataComponent="No bike journeys found"
       />

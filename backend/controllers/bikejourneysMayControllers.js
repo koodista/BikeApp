@@ -12,13 +12,6 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
 
   const pages = Math.ceil(totalPages / pageSize); //total number of pages
   query = query.skip(skip).limit(pageSize).allowDiskUse(true); // query for pagination
-  //query = query.limit(pageSize).skip(skip).allowDiskUse(true); // query for pagination
-  // query = query
-  //   .limit(pageSize)
-  //   .skip(skip)
-  //   .allowDiskUse(true)
-  //   .page(page)
-  //   .pageSize(pageSize);
 
   if (page > pages) {
     return res.status(404).json({
@@ -36,13 +29,6 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
     pageSize,
     data: result,
   });
-  // res.status(200).json({
-  //   status: "success",
-  //   count: result.length,
-  //   page,
-  //   pages,
-  //   data: result,
-  // });
 });
 
 exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
