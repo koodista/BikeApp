@@ -12,7 +12,7 @@ const BikejourneysMayTable = () => {
 
   // Fetch data from API
   const fetchData = async () => {
-    let endpoint = "http://localhost:5000/api/bikejourneys/may";
+    let endpoint = "http://localhost:5000/api/bikejourneysmay";
     endpoint += `?limit=${pageSize}&page=${currentPage}`;
     if (sortField) {
       endpoint += `&sort=${sortField}&dir=${sortDir}`;

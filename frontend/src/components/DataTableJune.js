@@ -3,8 +3,8 @@ import axios from "axios";
 import DataTable from "react-data-table-component";
 import FilterComponent from "./utils/FilterComponent";
 
-const DataTableMay = () => {
-  const [bikeJourneysMay, setBikeJourneysMay] = useState([]);
+const DataTableJune = () => {
+  const [bikeJourneysJune, setBikeJourneysJune] = useState([]);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState();
@@ -24,9 +24,9 @@ const DataTableMay = () => {
   const fetchData = async (page, limit) => {
     setLoading(true);
     const response = await axios.get(
-      `/api/bikejourneysmay?page=${page}&limit=${limit}&delay=1`
+      `/api/bikejourneysjune?page=${page}&limit=${limit}&delay=1`
     );
-    setBikeJourneysMay(response.data.data);
+    setBikeJourneysJune(response.data.data);
     setTotalPages(response.data.pages);
     setTotalRows(response.data.total);
     setCount(response.data.count);
@@ -38,10 +38,10 @@ const DataTableMay = () => {
     setLoading(true);
 
     const response = await axios.get(
-      `/api/bikejourneysmay?page=${page}&limit=${limit}&delay=1`
+      `/api/bikejourneysjune?page=${page}&limit=${limit}&delay=1`
     );
 
-    setBikeJourneysMay(response.data.data);
+    setBikeJourneysJune(response.data.data);
     setPageSize(limit);
     setLoading(false);
   };
@@ -54,7 +54,7 @@ const DataTableMay = () => {
   }, []);
 
   const handleSort = (column, sortDirection) => {
-    const data = bikeJourneysMay;
+    const data = bikeJourneysJune;
     data.sort((a, b) => {
       if (sortDirection === "asc") {
         return a[column] > b[column] ? 1 : -1;
@@ -63,7 +63,7 @@ const DataTableMay = () => {
       }
     });
 
-    setBikeJourneysMay(data);
+    setBikeJourneysJune(data);
   };
 
   const columns = [
@@ -126,7 +126,7 @@ const DataTableMay = () => {
     },
   ];
   // const handleFilter = () => {
-  //   const filteredItems = bikeJourneysMay.filter(
+  //   const filteredItems = bikeJourneysJune.filter(
   //     (item) =>
   //       JSON.stringify(item).toLowerCase().indexOf(filterText.toLowerCase()) !==
   //       -1
@@ -155,7 +155,7 @@ const DataTableMay = () => {
   //   );
   // }, [filterText, resetPaginationToggle]);
 
-  const filteredItems = bikeJourneysMay.filter(
+  const filteredItems = bikeJourneysJune.filter(
     (item) =>
       JSON.stringify(item).toLowerCase().indexOf(filterText.toLowerCase()) !==
       -1
@@ -179,7 +179,7 @@ const DataTableMay = () => {
   return (
     <div style={{ height: "100px" }}>
       <DataTable
-        title="CITY BIKE JOURNEYS MAY"
+        title="CITY BIKE JOURNEYS JUNE"
         columns={columns}
         data={filteredItems}
         progressPending={loading}
@@ -188,7 +188,7 @@ const DataTableMay = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         paginationTotalRows={totalPages}
-        paginationRowsPerPageOptions={[10, 30, 50, 100, 500, 5000, 13073]}
+        paginationRowsPerPageOptions={[10, 30, 50, 100, 500, 5000, 19648]}
         paginationPerPage={pageSize}
         // paginationComponentOptions={{
         //   rowsPerPageText: "Rows per page:",
@@ -215,4 +215,4 @@ const DataTableMay = () => {
   );
 };
 
-export default DataTableMay;
+export default DataTableJune;

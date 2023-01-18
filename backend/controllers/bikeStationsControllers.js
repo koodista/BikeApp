@@ -1,9 +1,9 @@
-const BikejourneysMay = require("../models/BikejourneysMay");
+const BikeStations = require("../models/BikeStations");
 const asyncHandler = require("../middleware/asyncHandler");
 const ErrorResponse = require("../utils/errorResponse");
 
-exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
-  let query = BikejourneysMay.find();
+exports.paginateBikeStations = asyncHandler(async (req, res, next) => {
+  let query = BikeStations.find();
 
   if (req.query.filter) {
     //if filter query parameter is present
@@ -25,7 +25,7 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
     const pageSize = parseInt(req.query.limit) || 30; //page size
     const page = parseInt(req.query.page) || 1; //default page number
     const skip = (page - 1) * pageSize; //number of documents to skip
-    const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
+    const totalPages = await BikeStations.countDocuments(); //total number of documents
 
     const pages = Math.ceil(totalPages / pageSize); //total number of pages
     query = query.skip(skip).limit(pageSize).allowDiskUse(true);
@@ -42,17 +42,17 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
   }
 });
 
-// const BikejourneysMay = require("../models/BikejourneysMay");
+// const BikeStations = require("../models/BikeStations");
 // const asyncHandler = require("../middleware/asyncHandler");
 // const ErrorResponse = require("../utils/errorResponse");
 
-// exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
-//   let query = BikejourneysMay.find();
+// exports.paginateBikeStations = asyncHandler(async (req, res, next) => {
+//   let query = BikeStations.find();
 
 //   const pageSize = parseInt(req.query.limit) || 30; //page size
 //   const page = parseInt(req.query.page) || 1; //default page number
 //   const skip = (page - 1) * pageSize; //number of documents to skip
-//   const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
+//   const totalPages = await BikeStations.countDocuments(); //total number of documents
 
 //   const pages = Math.ceil(totalPages / pageSize); //total number of pages
 //   query = query.skip(skip).limit(pageSize).allowDiskUse(true); // query for pagination
@@ -75,8 +75,8 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
 //   });
 // });
 
-exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
-  let query = BikejourneysMay.find();
+exports.filterBikeStations = asyncHandler(async (req, res, next) => {
+  let query = BikeStations.find();
 
   // Loop over each query parameter
   Object.keys(req.query).forEach((param) => {
@@ -87,7 +87,7 @@ exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
   const pageSize = parseInt(req.query.limit) || 30; // page size
   const page = parseInt(req.query.page) || 1; // default page number
   const skip = (page - 1) * pageSize; // number of documents to skip
-  const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
+  const totalPages = await BikeStations.countDocuments(); //total number of documents
 
   const pages = Math.ceil(totalPages / pageSize); //total number of pages
 
@@ -116,8 +116,8 @@ exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.sortBikejourneysMay = asyncHandler(async (req, res, next) => {
-  let query = BikejourneysMay.find();
+exports.sortBikeStations = asyncHandler(async (req, res, next) => {
+  let query = BikeStations.find();
 
   const pageSize = parseInt(req.query.limit) || 30; // page size
   const page = parseInt(req.query.page) || 1; // default page number
@@ -138,19 +138,19 @@ exports.sortBikejourneysMay = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.createNewBikejourneysMay = asyncHandler(async (req, res, next) => {
-  const bikejourneys = await BikejourneysMay.create(req.body);
+exports.createNewBikeStations = asyncHandler(async (req, res, next) => {
+  const bikestations = await BikeStations.create(req.body);
 
   res.status(201).json({
     success: true,
-    data: bikejourneys,
+    data: bikestations,
   });
 });
 
-exports.updateBikejourneysMayById = asyncHandler(async (req, res, next) => {
-  let bikejourneys = await BikejourneysMay.findById(req.params.id);
+exports.updateBikeStationsById = asyncHandler(async (req, res, next) => {
+  let bikestations = await BikeStations.findById(req.params.id);
 
-  if (!bikejourneys) {
+  if (!bikestations) {
     return next(
       new ErrorResponse(
         `Bikejourney with id ${req.params.id} was not found`,
@@ -159,22 +159,21 @@ exports.updateBikejourneysMayById = asyncHandler(async (req, res, next) => {
     );
   }
 
-  bikejourneys = await BikejourneysMay.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true, runValidators: true }
-  );
+  bikestations = await BikeStations.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
 
   res.status(201).json({
     success: true,
-    data: bikejourneys,
+    data: bikestations,
   });
 });
 
-exports.DeleteBikejourneysMayById = asyncHandler(async (req, res, next) => {
-  let bikejourneys = await BikejourneysMay.findById(req.params.id);
+exports.DeleteBikeStationsById = asyncHandler(async (req, res, next) => {
+  let bikestations = await BikeStations.findById(req.params.id);
 
-  if (!bikejourneys) {
+  if (!bikestations) {
     return next(
       new ErrorResponse(
         `Bikejourney with id ${req.params.id} was not found`,
@@ -183,7 +182,7 @@ exports.DeleteBikejourneysMayById = asyncHandler(async (req, res, next) => {
     );
   }
 
-  await bikejourneys.remove();
+  await bikestations.remove();
 
   res.status(200).json({
     success: true,

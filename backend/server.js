@@ -14,7 +14,10 @@ app.use(express.json());
 
 app.use(cors());
 // Routes
-app.use("/api/bikejourneys", require("./routes/bikejourneysMayRoutes"));
+app.use("/api/bikejourneysmay", require("./routes/bikejourneysMayRoutes"));
+app.use("/api/bikejourneysjune", require("./routes/bikejourneysJuneRoutes"));
+app.use("/api/bikejourneysjuly", require("./routes/bikejourneysJulyRoutes"));
+app.use("/api/bikestations", require("./routes/bikeStationsRoutes"));
 // Error Handler
 app.use(errorHandler);
 

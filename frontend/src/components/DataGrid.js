@@ -34,7 +34,7 @@ function DataGridForBikeJourneys() {
   const fetchData = async (page, limit) => {
     setLoading(true);
     const response = await axios.get(
-      `/api/bikejourneys/may?page=${page}&limit=${limit}&delay=1`
+      `/api/bikejourneysmay?page=${page}&limit=${limit}&delay=1`
     );
     setBikeJourneysMay(response.data.data);
     setTotalPages(response.data.pages);
@@ -48,7 +48,7 @@ function DataGridForBikeJourneys() {
     setLoading(true);
 
     const response = await axios.get(
-      `/api/bikejourneys/may?page=${page}&limit=${limit}&delay=1`
+      `/api/bikejourneysmay?page=${page}&limit=${limit}&delay=1`
     );
 
     setBikeJourneysMay(response.data.data);

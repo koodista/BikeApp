@@ -7,6 +7,9 @@ import Box from "@mui/material/Box";
 import DataTableMay from "../components/DataTableMay";
 import ReactTableMay from "../components/ReactTableMay";
 import DataGridForBikeJourneys from "../components/DataGrid";
+import DataTableJune from "../components/DataTableJune";
+import DataTableJuly from "../components/DataTableJuly";
+import DataTableStations from "../components/DataTableStations";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,9 +60,11 @@ export default function BasicTabs() {
           aria-label="basic tabs example"
         >
           <Tab label="Bike journeys May" {...a11yProps(0)} />
-          <Tab label="Bike journeys June" {...a11yProps(1)} />
-          <Tab label="Bike journeys July" {...a11yProps(2)} />
-          <Tab label="Bike stations" {...a11yProps(3)} />
+          <Tab label="Bike journeys May V2" {...a11yProps(1)} />
+          <Tab label="Bike journeys May V3" {...a11yProps(2)} />
+          <Tab label="Bike journeys June" {...a11yProps(3)} />
+          <Tab label="Bike journeys July" {...a11yProps(4)} />
+          <Tab label="Bike stations" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -72,7 +77,13 @@ export default function BasicTabs() {
         <ReactTableMay />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Bike Stations
+        <DataTableJune />
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        <DataTableJuly />
+      </TabPanel>
+      <TabPanel value={value} index={5}>
+        <DataTableStations />
       </TabPanel>
     </Box>
   );
