@@ -5,19 +5,13 @@ import FilterComponent from "./utils/FilterComponent";
 
 const DataTableMay = () => {
   const [bikeJourneysMay, setBikeJourneysMay] = useState([]);
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [totalRows, setTotalRows] = useState();
-  const [page, setPage] = useState(0);
-  const [pages, setPages] = useState(0);
-  const [limit, setLimit] = useState(30);
+  //const [totalRows, setTotalRows] = useState();
+  //const [pages, setPages] = useState(0);
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
-  const [count, setCount] = useState(0);
-  const [filters, setFilters] = useState();
-  const [rowCountState, setRowCountState] = useState(totalPages);
-  const [currentPage, setCurrentPage] = useState();
-  //const [filteredItems, setFilteredItems] = useState([]);
+  //const [count, setCount] = useState(0);
+  //const [currentPage, setCurrentPage] = useState();
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(true);
 
@@ -28,26 +22,31 @@ const DataTableMay = () => {
     );
     setBikeJourneysMay(response.data.data);
     setTotalPages(response.data.pages);
-    setTotalRows(response.data.total);
-    setCount(response.data.count);
+    // setTotalRows(response.data.total);
+    // setCount(response.data.count);
     setLoading(false);
   };
 
   const handlePerRowsChange = async (limit, page) => {
-    setPages(page);
+    //setPages(page);
     setLoading(true);
-
+    //setCurrentPage(page);
     const response = await axios.get(
       `/api/bikejourneysmay?page=${page}&limit=${limit}&delay=1`
     );
-
     setBikeJourneysMay(response.data.data);
     setPageSize(limit);
     setLoading(false);
   };
 
-  const handlePageChange = (page) => {
-    handlePerRowsChange(pageSize, page);
+  const handlePageChange = async (page) => {
+    setLoading(true);
+    //setCurrentPage(page);
+    const response = await axios.get(
+      `/api/bikejourneysmay?page=${page}&limit=${pageSize}&delay=1`
+    );
+    setBikeJourneysMay(response.data.data);
+    setLoading(false);
   };
   useEffect(() => {
     fetchData();
@@ -199,7 +198,7 @@ const DataTableMay = () => {
         responsive="true"
         theme="default" //dark
         onSort={handleSort}
-        defaultSortField="departure"
+        //defaultSortField={"departure"}
         striped
         //onFilter={handleFilter}
         //page={page - 1}

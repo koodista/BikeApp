@@ -12,7 +12,7 @@ router
 // @route - /api/bikejourneysjuly/filter
 router.route("/filter").get(bikejourneysJulyControllers.filterBikejourneysJuly);
 
-// @route - /api/bikejourneysjuly/filter
+// @route - /api/bikejourneysjuly/sort
 router.route("/sort").get(bikejourneysJulyControllers.sortBikejourneysJuly);
 
 // @route - /api/bikejourneysjuly/:id

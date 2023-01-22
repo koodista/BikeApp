@@ -33,7 +33,6 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
     res.status(200).json({
       status: "success",
       count: result.length,
-
       page,
       pages,
       pageSize,
@@ -41,39 +40,6 @@ exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
     });
   }
 });
-
-// const BikejourneysMay = require("../models/BikejourneysMay");
-// const asyncHandler = require("../middleware/asyncHandler");
-// const ErrorResponse = require("../utils/errorResponse");
-
-// exports.paginateBikejourneysMay = asyncHandler(async (req, res, next) => {
-//   let query = BikejourneysMay.find();
-
-//   const pageSize = parseInt(req.query.limit) || 30; //page size
-//   const page = parseInt(req.query.page) || 1; //default page number
-//   const skip = (page - 1) * pageSize; //number of documents to skip
-//   const totalPages = await BikejourneysMay.countDocuments(); //total number of documents
-
-//   const pages = Math.ceil(totalPages / pageSize); //total number of pages
-//   query = query.skip(skip).limit(pageSize).allowDiskUse(true); // query for pagination
-
-//   if (page > pages) {
-//     return res.status(404).json({
-//       status: "failed",
-//       message: "No page found",
-//     });
-//   }
-
-//   const result = await query;
-//   res.status(200).json({
-//     status: "success",
-//     count: result.length,
-//     page,
-//     pages,
-//     pageSize,
-//     data: result,
-//   });
-// });
 
 exports.filterBikejourneysMay = asyncHandler(async (req, res, next) => {
   let query = BikejourneysMay.find();

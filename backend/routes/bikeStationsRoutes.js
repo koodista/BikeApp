@@ -12,7 +12,7 @@ router
 // @route - /api/bikestations/filter
 router.route("/filter").get(bikeStationsControllers.filterBikeStations);
 
-// @route - /api/bikestations/filter
+// @route - /api/bikestations/sort
 router.route("/sort").get(bikeStationsControllers.sortBikeStations);
 
 // @route - /api/bikestations/:id

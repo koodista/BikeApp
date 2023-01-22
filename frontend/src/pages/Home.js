@@ -5,8 +5,6 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import DataTableMay from "../components/DataTableMay";
-import ReactTableMay from "../components/ReactTableMay";
-import DataGridForBikeJourneys from "../components/DataGrid";
 import DataTableJune from "../components/DataTableJune";
 import DataTableJuly from "../components/DataTableJuly";
 import DataTableStations from "../components/DataTableStations";
@@ -60,29 +58,21 @@ export default function BasicTabs() {
           aria-label="basic tabs example"
         >
           <Tab label="Bike journeys May" {...a11yProps(0)} />
-          <Tab label="Bike journeys May V2" {...a11yProps(1)} />
-          <Tab label="Bike journeys May V3" {...a11yProps(2)} />
-          <Tab label="Bike journeys June" {...a11yProps(3)} />
-          <Tab label="Bike journeys July" {...a11yProps(4)} />
-          <Tab label="Bike stations" {...a11yProps(5)} />
+          <Tab label="Bike journeys June" {...a11yProps(1)} />
+          <Tab label="Bike journeys July" {...a11yProps(2)} />
+          <Tab label="Bike stations" {...a11yProps(3)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <DataTableMay />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DataGridForBikeJourneys />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <ReactTableMay />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
         <DataTableJune />
       </TabPanel>
-      <TabPanel value={value} index={4}>
+      <TabPanel value={value} index={2}>
         <DataTableJuly />
       </TabPanel>
-      <TabPanel value={value} index={5}>
+      <TabPanel value={value} index={3}>
         <DataTableStations />
       </TabPanel>
     </Box>

@@ -42,60 +42,25 @@ exports.paginateBikeStations = asyncHandler(async (req, res, next) => {
   }
 });
 
-// const BikeStations = require("../models/BikeStations");
-// const asyncHandler = require("../middleware/asyncHandler");
-// const ErrorResponse = require("../utils/errorResponse");
-
-// exports.paginateBikeStations = asyncHandler(async (req, res, next) => {
-//   let query = BikeStations.find();
-
-//   const pageSize = parseInt(req.query.limit) || 30; //page size
-//   const page = parseInt(req.query.page) || 1; //default page number
-//   const skip = (page - 1) * pageSize; //number of documents to skip
-//   const totalPages = await BikeStations.countDocuments(); //total number of documents
-
-//   const pages = Math.ceil(totalPages / pageSize); //total number of pages
-//   query = query.skip(skip).limit(pageSize).allowDiskUse(true); // query for pagination
-
-//   if (page > pages) {
-//     return res.status(404).json({
-//       status: "failed",
-//       message: "No page found",
-//     });
-//   }
-
-//   const result = await query;
-//   res.status(200).json({
-//     status: "success",
-//     count: result.length,
-//     page,
-//     pages,
-//     pageSize,
-//     data: result,
-//   });
-// });
-
 exports.filterBikeStations = asyncHandler(async (req, res, next) => {
   let query = BikeStations.find();
 
-  // Loop over each query parameter
   Object.keys(req.query).forEach((param) => {
-    // create query based on parameter and its value
     query = query.where(param).equals(req.query[param]);
   });
 
-  const pageSize = parseInt(req.query.limit) || 30; // page size
-  const page = parseInt(req.query.page) || 1; // default page number
-  const skip = (page - 1) * pageSize; // number of documents to skip
-  const totalPages = await BikeStations.countDocuments(); //total number of documents
+  const pageSize = parseInt(req.query.limit) || 30;
+  const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * pageSize;
+  const totalPages = await BikeStations.countDocuments();
 
-  const pages = Math.ceil(totalPages / pageSize); //total number of pages
+  const pages = Math.ceil(totalPages / pageSize);
 
   query = query
     .limit(pageSize)
     .skip(skip)
     .allowDiskUse(true)
-    .sort({ [req.query.sort]: req.query.dir }); //query for pagination and sorting
+    .sort({ [req.query.sort]: req.query.dir });
 
   if (page > pages) {
     return res.status(404).json({
@@ -119,11 +84,11 @@ exports.filterBikeStations = asyncHandler(async (req, res, next) => {
 exports.sortBikeStations = asyncHandler(async (req, res, next) => {
   let query = BikeStations.find();
 
-  const pageSize = parseInt(req.query.limit) || 30; // page size
-  const page = parseInt(req.query.page) || 1; // default page number
-  const skip = (page - 1) * pageSize; //number of documents to skip
+  const pageSize = parseInt(req.query.limit) || 30;
+  const page = parseInt(req.query.page) || 1;
+  const skip = (page - 1) * pageSize;
 
-  let sortField = req.query.sort; // Set sort field
+  let sortField = req.query.sort;
 
   query = query.limit(pageSize).skip(skip).sort(sortField).allowDiskUse(true);
 
