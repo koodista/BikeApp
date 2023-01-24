@@ -5,7 +5,6 @@ import FilterComponent from "./utils/FilterComponent";
 
 const DataTableStations = () => {
   const [bikeStations, setBikeStations] = useState([]);
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState();
   const [page, setPage] = useState(0);
@@ -14,10 +13,6 @@ const DataTableStations = () => {
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
   const [count, setCount] = useState(0);
-  const [filters, setFilters] = useState();
-  const [rowCountState, setRowCountState] = useState(totalPages);
-  const [currentPage, setCurrentPage] = useState();
-  //const [filteredItems, setFilteredItems] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(true);
 

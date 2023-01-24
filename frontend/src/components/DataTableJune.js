@@ -5,19 +5,13 @@ import FilterComponent from "./utils/FilterComponent";
 
 const DataTableJune = () => {
   const [bikeJourneysJune, setBikeJourneysJune] = useState([]);
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [totalRows, setTotalRows] = useState();
-  const [page, setPage] = useState(0);
   const [pages, setPages] = useState(0);
   const [limit, setLimit] = useState(30);
   const [pageSize, setPageSize] = useState(30);
   const [totalPages, setTotalPages] = useState(1);
   const [count, setCount] = useState(0);
-  const [filters, setFilters] = useState();
-  const [rowCountState, setRowCountState] = useState(totalPages);
-  const [currentPage, setCurrentPage] = useState();
-  //const [filteredItems, setFilteredItems] = useState([]);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(true);
 
