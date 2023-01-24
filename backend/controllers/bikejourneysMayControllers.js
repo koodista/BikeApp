@@ -137,7 +137,7 @@ exports.updateBikejourneysMayById = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.DeleteBikejourneysMayById = asyncHandler(async (req, res, next) => {
+exports.deleteBikejourneysMayById = asyncHandler(async (req, res, next) => {
   let bikejourneys = await BikejourneysMay.findById(req.params.id);
 
   if (!bikejourneys) {

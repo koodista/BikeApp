@@ -19,6 +19,6 @@ router.route("/sort").get(bikejourneysMayControllers.sortBikejourneysMay);
 router
   .route("/:id")
   .put(bikejourneysMayControllers.updateBikejourneysMayById)
-  .delete(bikejourneysMayControllers.DeleteBikejourneysMayById);
+  .delete(bikejourneysMayControllers.deleteBikejourneysMayById);
 
 module.exports = router;
