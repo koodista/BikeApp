@@ -21,9 +21,12 @@ The project utilizes the MERN-stack to build an app that visualizes City Bike jo
 3. Install depencies and run.
   - cd backend ***npm i*** and cd frontend ***npm i***
   - ***npm start*** on backend and frontend side.
+4. Run tests
+  - ***npm test***
 
 # TODO's
-- Refine frontend filtering logic
+- configure better Routing
+- Refine frontend filtering, sorting logic
 - MongoDB aggregation, indexing
 - Take out comments (as per the project quidelines)
 - Create tests
